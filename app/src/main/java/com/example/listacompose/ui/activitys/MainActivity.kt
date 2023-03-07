@@ -1,4 +1,4 @@
-package com.example.listacompose
+package com.example.listacompose.ui.activitys
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
