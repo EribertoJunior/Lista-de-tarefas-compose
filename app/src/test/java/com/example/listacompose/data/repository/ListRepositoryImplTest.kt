@@ -3,6 +3,7 @@ package com.example.listacompose.data.repository
 import com.example.listacompose.data.dataSource.ListDataSource
 import com.example.listacompose.data.model.Task
 import com.example.listacompose.domain.repository.ListRepository
+import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.spyk
@@ -10,6 +11,7 @@ import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -20,13 +22,18 @@ internal class ListRepositoryImplTest {
     private lateinit var listRepository: ListRepository
 
     @Before
-    fun before() {
+    fun setUp() {
         listDataSourceMock = mockk()
         listRepository = spyk(ListRepositoryImpl(listDataSource = listDataSourceMock))
     }
 
+    @After
+    fun tearDown(){
+        clearAllMocks()
+    }
+
     @Test
-    fun `quando houver um item salvo deve retornar um item`() {
+    fun `quando o data_source retornar um item, deve retornar um item`() {
 
         coEvery { listDataSourceMock.getTasks() } returns flow {
             emit(
@@ -41,7 +48,7 @@ internal class ListRepositoryImplTest {
     }
 
     @Test
-    fun `quando houver cinco itens salvos, deve retornar cinco itens`() {
+    fun `quando o data_source retornar cinco itens, deve retornar cinco itens`() {
         coEvery { listDataSourceMock.getTasks() } returns flow {
             emit(
                 listOf(
