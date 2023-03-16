@@ -1,5 +1,6 @@
 package com.example.listacompose.ui.activitys
 
+import android.content.Intent
 import android.content.res.Configuration.UI_MODE_NIGHT_MASK
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -25,7 +26,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    App()
+                    App(onClickFloatingActionButton = {
+                        startActivity(Intent(this, FormActivity::class.java))
+                    })
                 }
             }
         }
@@ -33,11 +36,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun App() {
+fun App(onClickFloatingActionButton: () -> Unit = {}) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
+            FloatingActionButton(onClick = onClickFloatingActionButton) {
                 Icon(Icons.Rounded.Add, contentDescription = "null")
             }
         }
